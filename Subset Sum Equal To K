@@ -1,0 +1,22 @@
+import java.util.* ;
+
+
+
+import java.io.*; 
+public class Solution {
+    public static boolean f(int ind, int target,int[] arr,Boolean[][]dp){
+        if(target == 0) return true;
+        if(ind == 0) return (arr[0] == target);
+        if(dp[ind][target]!=null) return dp[ind][target];
+        boolean nottake = f(ind-1,target,arr,dp);
+        boolean take = false;
+        if(target >= arr[ind]) take = f(ind-1,target-arr[ind],arr,dp);
+        return dp[ind][target] =  nottake || take;
+    }
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        // Write your code here.
+        Boolean[][] dp = new Boolean[n][k+1];
+        //for(boolean [] row :dp) Arrays.fill(row,null);
+        return f(n-1,k,arr,dp);
+    }
+}
