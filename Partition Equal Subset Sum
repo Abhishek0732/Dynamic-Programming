@@ -1,0 +1,22 @@
+class Solution {
+    public static boolean f(int ind, int target,int[] nums,Boolean[][]dp){
+        if(target == 0) return true;
+        if(ind == 0) return (nums[0] == target);
+        if(dp[ind][target]!=null) return dp[ind][target];
+        boolean nottake = f(ind-1,target,nums,dp);
+        boolean take = false;
+        if(target >= nums[ind]) take = f(ind-1,target-nums[ind],nums,dp);
+        return dp[ind][target] =  nottake || take;
+    }
+    public boolean canPartition(int[] nums) {
+
+        
+        int totalsum = 0;
+        for(int a:nums) totalsum+=a;
+        if(totalsum%2!=0) return false;
+        int target = totalsum/2;
+        int n = nums.length;
+        Boolean dp[][] = new Boolean[n+1][target+1];
+        return f(n-1,target,nums,dp);
+    }
+}
