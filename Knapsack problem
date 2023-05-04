@@ -1,0 +1,30 @@
+import java.util.* ;
+import java.io.*; 
+
+public class Solution{
+    public static int f(int ind,int W,int[] weight,int[] value,int[][]dp){
+        if(ind == 0){
+            if(weight[0]<=W) return value[0];
+            else return 0;
+        }
+        if(dp[ind][W]!=-1) return dp[ind][W];
+        int nottake = 0+f(ind-1,W,weight,value,dp);
+        int take = Integer.MIN_VALUE;
+        if(weight[ind]<=W) take = value[ind] + f(ind-1,W-weight[ind],weight,value,dp);
+        return dp[ind][W] = Math.max(take,nottake);
+    }
+    static int knapsack(int[] weight, int[] value, int n, int maxWeight) {
+
+            /* Your class should be named Solution
+            * Don't write main().
+            * Don't read input, it is passed as function argument.
+            * Change in the given tree itself.
+            * No need to return or print the output.
+            * Taking input and printing output is handled automatically.
+            */
+        int dp[][] = new int[n][maxWeight+1];
+        for(int[] row:dp) Arrays.fill(row,-1);
+        return f(n-1,maxWeight,weight,value,dp);
+
+    }
+}
