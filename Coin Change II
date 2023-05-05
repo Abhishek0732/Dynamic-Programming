@@ -1,0 +1,17 @@
+class Solution {
+    public static int f(int ind, int tar,int[] coins,int[][]dp){
+        if(ind == 0){
+            return tar%coins[0]==0?1:0;
+        }
+        if(dp[ind][tar]!=-1) return dp[ind][tar];
+        int nottake = f(ind-1,tar,coins,dp);
+        int take=0;
+        if(coins[ind]<=tar) take = f(ind,tar-coins[ind],coins,dp);
+        return dp[ind][tar]=nottake+take;
+    }
+    public int change(int amount, int[] coins) {
+        int dp[][] = new int[coins.length][amount+1];
+        for(int[] row:dp) Arrays.fill(row,-1);
+        return f(coins.length-1,amount,coins,dp);
+    }
+}
