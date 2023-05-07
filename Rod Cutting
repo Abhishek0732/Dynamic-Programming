@@ -1,0 +1,26 @@
+class Solution{
+    public static int f(int ind,int n, int[]price,int[][]dp){
+        if(ind==0) return n*price[0];
+        if(dp[ind][n]!=-1) return dp[ind][n];
+        int nottake = 0+f(ind-1,n,price,dp);
+        int take = Integer.MIN_VALUE;
+        int rodlenght = ind+1;
+        if(rodlenght<=n) take = price[ind]+f(ind,n-rodlenght,price,dp);
+        return dp[ind][n] = Math.max(take,nottake);
+    }
+    public int cutRod(int price[], int n) {
+        //code here
+        int[][] dp = new int[n][n+1];
+        for(int N=0;N<=n;N++) dp[0][N] = N*price[0];
+        for(int ind=1;ind<n;ind++){
+            for(int N=0;N<=n;N++){
+                int nottake = 0+dp[ind-1][N];
+                int take = Integer.MIN_VALUE;
+                int rodlength = ind+1;
+                if(rodlength<=N) take = price[ind]+dp[ind][N-rodlength];
+                dp[ind][N] = Math.max(take,nottake);
+            }
+        }
+        return dp[n-1][n];
+    }
+}
