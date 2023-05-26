@@ -1,0 +1,16 @@
+class Solution {
+    public static int f(int ind, int prev_ind,int[] nums,int[][] dp){
+        if(ind==nums.length) return 0;
+        if(dp[ind][prev_ind+1]!=-1) return dp[ind][prev_ind+1];
+        int len = 0+f(ind+1,prev_ind,nums,dp);
+        if(prev_ind==-1 || nums[ind]>nums[prev_ind]){
+            len = Math.max(len,1+f(ind+1,ind,nums,dp));
+        }
+        return dp[ind][prev_ind+1] = len;
+    }
+    public int lengthOfLIS(int[] nums) {
+        int[][]dp = new int[nums.length][nums.length+1];
+        for(int[] row:dp) Arrays.fill(row,-1);
+        return f(0,-1,nums,dp);
+    }
+}
